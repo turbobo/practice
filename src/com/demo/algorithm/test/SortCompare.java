@@ -1,6 +1,7 @@
 package com.demo.algorithm.test;
 
 import com.demo.algorithm.sort.Insertion;
+import com.demo.algorithm.sort.Merge;
 import com.demo.algorithm.sort.Shell;
 
 import java.io.BufferedReader;
@@ -55,6 +56,7 @@ public class SortCompare {
 */
     }
 
+    //测试插入排序
     private static void testInsertion(Integer[] a){
         long start = System.currentTimeMillis();
         Insertion.sort(a);
@@ -62,10 +64,19 @@ public class SortCompare {
         System.out.println("插入排序10万条逆序数据用时："+(end-start)+"毫秒");
     }
 
+    //测试希尔排序
     private static void testShell(Integer[] a){
         long start = System.currentTimeMillis();
         Shell.sort(a);
         long end = System.currentTimeMillis();
         System.out.println("希尔排序10万条逆序数据用时："+(end-start)+"毫秒");
+    }
+
+    //测试归并排序
+    private static void testMerge(Integer[] a){
+        long start = System.currentTimeMillis();
+        Merge.sort(a);
+        long end = System.currentTimeMillis();
+        System.out.println("归并排序10万条逆序数据用时："+(end-start)+"毫秒");
     }
 }
