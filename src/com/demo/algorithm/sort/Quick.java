@@ -28,7 +28,7 @@ public class Quick {
     }
 
     //对数组a中从low到high之间进行排序
-    private static void sort(Comparable[] a, int low, int high) {
+    private static void sort(Comparable[] a, int low, int high) {  //实际排序操作在partition方法中
         //安全检查
         if(low>=high){
             return ;
@@ -36,16 +36,45 @@ public class Quick {
         //获得分界点索引
         int pivot = partition(a, low, high);
 
-        //左子组排序
+        //左子组排序  调用partition
         sort(a,low,pivot-1);
         //右子组排序
         sort(a,pivot+1,high);
 
     }
 
-
+    //对数组进行切分
     private static int partition(Comparable[] a, int low, int high) {
-       return 1;
+        //确定分界值----数组第一个元素
+        Comparable key = a[low];
+
+        //定义两个指针，指向最小  最大处
+        int left = low;
+        int right = high+1;
+
+        while(true){
+            //right从右往左扫描，找到一个比分界值小的值，停止
+            while(less(key,a[--right])){   //找right位置比分界值pivot小的  放分界值左边
+                if(right==low){  //扫描到low位置 退出
+                    break;
+                }
+            }
+            //left从左往右，找到一个比分界值大的值
+            while(less(a[++left],key)){   //找right位置比分界值pivot大的  放分界值右边
+                if(left==high){  //扫描到low位置 退出
+                    break;
+                }
+            }
+            //left>=right 扫描结束，退出循环；否则交换位置
+            if(left>=right){
+                break;
+            }else{
+                swap(a,right,left);
+            }
+        }
+        //左右指针重合时，交换任一指针和pivot位置
+        swap(a,right,low);
+        return right;
     }
 
 }
