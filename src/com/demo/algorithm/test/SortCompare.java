@@ -2,6 +2,7 @@ package com.demo.algorithm.test;
 
 import com.demo.algorithm.sort.Insertion;
 import com.demo.algorithm.sort.Merge;
+import com.demo.algorithm.sort.Quick;
 import com.demo.algorithm.sort.Shell;
 
 import java.io.BufferedReader;
@@ -10,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 /**
  * @Author Jusven
@@ -34,8 +36,13 @@ public class SortCompare {
         Integer[] arr = new Integer[arrayList.size()];
         arrayList.toArray(arr);
 
+        Integer[] array = new Integer[200000];
+        Integer[] a =getRandomArr(array);  //随机数
+        testShell(a);
+//        testQuick(a);
         //4.调用测试代码
-        testShell(arr);  //151毫秒
+//        testShell(arr);  //151毫秒
+//        testQuick(arr);   //174毫秒
 //        testInsertion(arr);
 
 
@@ -54,6 +61,17 @@ public class SortCompare {
 //        testInsertion(a);    //25968毫秒
 //        testShell(a);    //33毫秒
 */
+    }
+
+    /**
+     * 获取一个打乱的数组
+     * @param arr
+     */
+    private static Integer[] getRandomArr(Integer[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = new Random().nextInt(arr.length);
+        }
+        return arr;
     }
 
     //测试插入排序
@@ -76,6 +94,14 @@ public class SortCompare {
     private static void testMerge(Integer[] a){
         long start = System.currentTimeMillis();
         Merge.sort(a);
+        long end = System.currentTimeMillis();
+        System.out.println("归并排序10万条逆序数据用时："+(end-start)+"毫秒");
+    }
+
+    //测试快速排序
+    private static void testQuick(Integer[] a){
+        long start = System.currentTimeMillis();
+        Quick.sort(a);
         long end = System.currentTimeMillis();
         System.out.println("归并排序10万条逆序数据用时："+(end-start)+"毫秒");
     }
