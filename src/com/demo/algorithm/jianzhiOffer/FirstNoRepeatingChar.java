@@ -14,9 +14,10 @@ public class FirstNoRepeatingChar {
         String str2 = "ggoo7";
         String str3 = "AggooAaa";
         String str4="NXWtnzyoHoBhUJaPauJaAitLWNMlkKwDYbbigdMMaYfkVPhGZcrEwp";
-        System.out.println("第一个只出现一次的字符的下角标为："+FirstNotRepeatingChar_Solution(str4));
-        System.out.println("第一个只出现一次的字符的下角标为："+FirstNotRepeatingChar_Solution2(str4));
-        System.out.println(str+"第一个字符的位置下角标为："+str.indexOf('g'));
+//        System.out.println("第一个只出现一次的字符的下角标为："+FirstNotRepeatingChar_Solution(str4));
+//        System.out.println("第一个只出现一次的字符的下角标为："+FirstNotRepeatingChar_Solution2(str4));
+//        System.out.println(str+"第一个字符的位置下角标为："+str.indexOf('g'));
+        System.out.println(FirstNotRepeatingChar_Solution3(str4));
     }
 
     public static int FirstNotRepeatingChar_Solution(String str) {
@@ -69,7 +70,11 @@ public class FirstNoRepeatingChar {
     }
 
     public static int FirstNotRepeatingChar_Solution2(String str) {
+        //只有字母字符，大小写共52个   大小写中间还有6个字符
+        //1、用map统计每个字母A...Z  a...z出现次数
+        //2、用字母个A的差值组成数组（长度58）来记录次数
 
+        //3、直接用map统计
         HashMap<Object,Integer> map = new HashMap<Object,Integer>();
 
         for(int i=0;i<str.length();i++){
@@ -88,4 +93,19 @@ public class FirstNoRepeatingChar {
 
         return -1;
     }
+
+    public static int FirstNotRepeatingChar_Solution3(String str) {
+        int[] count = new int[58];  //初始化都为0
+        for(int k=0;k<str.length();k++){
+            int index = str.charAt(k)-'A';   //和A的差值就是下角标
+            count[index]++;             //出现次数
+        }
+        for(int k=0;k<str.length();k++){   //
+            int index = str.charAt(k)-'A';
+            if(count[index]==1)
+                return k;
+        }
+        return -1;
+    }
+
 }

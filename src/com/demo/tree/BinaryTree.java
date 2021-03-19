@@ -15,7 +15,7 @@ public class BinaryTree {
         int[] array = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
         List<Node> nodeList = new LinkedList<Node>();
         createBinTree(array,nodeList);
-        preOrderTraverse(nodeList.get(0));  //传入根节点
+        preOrderTraverse(nodeList.get(0));  //传入根节点---根结点就是数组第一个元素
         System.out.println();
         Mirror(nodeList.get(0));
         preOrderTraverse(nodeList.get(0));  //传入根节点
@@ -41,6 +41,21 @@ public class BinaryTree {
             nodeList.get(lastParentIndex).rightChild = nodeList.get(lastParentIndex * 2 + 2);
         }
     }
+
+//    public static TreeNode createTree(TreeNode node, int i, int[] TREE_VALUE) {
+//        if (0 == TREE_VALUE[i]) {
+//            return null;
+//        } else {
+//            node.setVal(TREE_VALUE[i]);
+//        }
+//
+//        TreeNode leftChild = new TreeNode();
+//        node.left = createTree(leftChild, ++TreeValue.index);
+//        TreeNode rightChild = new TreeNode();
+//        node.right = createTree(rightChild, ++TreeValue.index);
+//
+//        return node;
+//    }
 
     //二叉树镜像----左右子树交换
     public static Node Mirror (Node pRoot) {
