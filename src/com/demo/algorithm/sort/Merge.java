@@ -40,7 +40,7 @@ public class Merge {
         }
 
         //数组分为两部分
-        int mid = low+(high-low)/2;
+        int mid = low+(high-low)/2;   // (low+high)/2
         //分别对两个分组排序
         sort(a,low,mid);   //左子组
         sort(a,mid+1,high);   //右子组
@@ -73,7 +73,7 @@ public class Merge {
             assist[i++] = a[p2++];
         }
 
-        //拷贝辅助数组到原数组对应位置
+        //拷贝辅助数组到原数组对应位置   本次是从low到high位置的元素
         for(int index=low;index<=high;index++){
             a[index] = assist[index];
         }

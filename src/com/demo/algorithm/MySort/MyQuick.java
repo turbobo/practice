@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class MyQuick {
     public static void main(String[] args) {
-        int[] a = {231,43,54,2,7,67};
+        int[] a = {231,43,54,2,7,67,348,22,31,16,2,2,34};
         QuickSort(a);
         System.out.println(Arrays.toString(a));
     }
@@ -39,7 +39,7 @@ public class MyQuick {
         int right=high+1;  //right每次都要先减一再开始移动
         int key=arr[low];
         while(true){
-            //1.从右往左移动右指针，直到比分界值小
+/*            //1.从右往左移动右指针，直到比分界值小
             while(less(key,arr[--right])){
                 if(right==low)  //右指针已经到最左
                     break;
@@ -48,15 +48,29 @@ public class MyQuick {
             while(less(arr[++left],key)){
                 if(left==high)  //右指针已经到最左
                     break;
+            }*/
+
+            while (right>low){
+                right--;
+                if(arr[right]<key)
+                    break;
             }
-            //左右指针相遇都没有找到合适位置----两边已经分好了
+            while (left<high){
+                left++;
+                if(arr[left]>key)
+                    break;
+            }
+
+
+
+            //左右指针相遇都没有找到合适位置----本趟遍历 两边已经分好了
             if(left>=right){   // *************************************一定要大于等于！！！！！  左指针可能会到头high
                 break;
             }else {  //前面两个左右交换位置已经找到
                 swap(arr,left,right);
-            }
+            }//交换后继续移动左右指针
         }
-        //把key移到分界值right位置
+        //把key移到分界值right位置（righ=left，或者righ<left跳出循环的,而且right元素放的是小于key的元素，所以low应该取right的位置）
         swap(arr,low,right);
         return right;
     }

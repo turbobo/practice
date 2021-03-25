@@ -7,7 +7,7 @@ public class Node {
     public Node rightChild;
     public int data;
 
-    Node(int newData) {
+    public Node(int newData) {
         leftChild = null;
         rightChild = null;
         data = newData;
