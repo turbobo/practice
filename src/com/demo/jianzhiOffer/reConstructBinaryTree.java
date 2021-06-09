@@ -1,4 +1,4 @@
-package com.demo.algorithm.jianzhiOffer;
+package com.demo.jianzhiOffer;
 
 import com.demo.tree.Node;
 
@@ -55,6 +55,7 @@ public class reConstructBinaryTree {
 
     /*
     * 每次递归 ---- 前序和中序的总个数是相同的
+    * 根据中序、前序重建二叉树
     * */
     public static Node reConstructBinaryTree_Solution(int [] pre, int [] in) {
         //前序--根左右 为空
@@ -83,12 +84,14 @@ public class reConstructBinaryTree {
         * */
         root.leftChild = reConstructBinaryTree_Solution(Arrays.copyOfRange(pre,1,rootIndex+1), Arrays.copyOfRange(in,0,rootIndex));
         root.rightChild = reConstructBinaryTree_Solution(Arrays.copyOfRange(pre,rootIndex+1,pre.length), Arrays.copyOfRange(in,rootIndex+1,in.length));
+
         //返回当前根结点
         return root;
     }
 
     /*
      * 每次递归 ---- 前序和中序的总个数是相同的
+     * 根据中序、后序重建二叉树
      * */
     public static Node reConstructBinaryTree_Solution2(int [] in, int [] post) {
         //后序--左右根 为空

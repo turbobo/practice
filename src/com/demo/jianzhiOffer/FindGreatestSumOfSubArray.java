@@ -1,4 +1,4 @@
-package com.demo.algorithm.jianzhiOffer;
+package com.demo.jianzhiOffer;
 
 /**
  * @Author Jusven

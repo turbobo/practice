@@ -10,7 +10,7 @@ import java.util.Arrays;
  */
 public class QuickTest {
     public static void main(String[] args) {
-        Integer[] arr = {4,73,32,6,3,34};
+        Integer[] arr ={32, 385, 23, 4, 6, 6, 50, 11, 33, 406};
         Quick.sort(arr);
         System.out.println(Arrays.toString(arr));
     }

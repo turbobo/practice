@@ -1,4 +1,4 @@
-package com.demo.algorithm.jianzhiOffer;
+package com.demo.jianzhiOffer;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;

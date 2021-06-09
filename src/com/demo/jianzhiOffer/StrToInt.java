@@ -1,8 +1,5 @@
-package com.demo.algorithm.jianzhiOffer;
+package com.demo.jianzhiOffer;
 
-
-import java.lang.reflect.Array;
-import java.util.Arrays;
 
 /**
  * @Author Jusven

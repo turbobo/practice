@@ -1,8 +1,7 @@
 package com.demo.algorithm.MySort;
 
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Author Jusven
@@ -10,76 +9,81 @@ import java.util.List;
  */
 public class MyQuick {
     public static void main(String[] args) {
-        int[] a = {231,43,54,2,7,67,348,22,31,16,2,2,34};
-        QuickSort(a);
+        int[] a = {231,43,54,2,7,67,231,348,22,31,16,2,2,34};
+//        sort(a);
         System.out.println(Arrays.toString(a));
+        PriorityQueue<Integer> queue = new PriorityQueue<Integer>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o2 - o1;
+            }
+        });
+        for (int i = 0; i < 4; i++) {
+            queue.offer(a[i]);
+        }
+        for (int i = 4; i < a.length; i++) {
+            if(queue.peek() > a[i]){
+                queue.poll();
+                queue.offer(a[i]);
+            }
+        }
+        while(!queue.isEmpty()){
+            System.out.println(queue.poll());
+        }
     }
 
-    public static void QuickSort(int[] arr){
+    public static void sort(int[] arr){
         sort(arr,0,arr.length-1);
     }
 
-    //1.从low到high排序
     public static void sort(int[] arr, int low, int high){
-        //指针校验
-        if(low>=high)
-            return ;
-        //找到分界值pivot
+        //有效校验
+        if(low >= high) {
+            return;
+        }
+
         int pivot = partition(arr,low,high);
-        //左子组继续排序
+        //pivot位置元素已经固定
         sort(arr,low,pivot-1);
         sort(arr,pivot+1,high);
-        //右子组继续排序
     }
 
-    //2.对数组进行拆分（目的是返回pivot位置，过程中也将pivot左右元素分好位置），交换左右元素，最后将pivot放到合适位置
     public static int partition(int[] arr, int low, int high){
-        //初始化左右指针
-        int left=low;
-        int right=high+1;  //right每次都要先减一再开始移动
-        int key=arr[low];
+        int key = arr[low];
+        int left = low;   //第一个元素默认为分界值，不需要比较
+        int right = high+1;
         while(true){
-/*            //1.从右往左移动右指针，直到比分界值小
-            while(less(key,arr[--right])){
-                if(right==low)  //右指针已经到最左
+            while (arr[++left] < key){  //左边找大于分界值key的数
+                if(left == high){
                     break;
+                }
             }
-            //2.从左往右移动左指针，直到比分界值大
-            while(less(arr[++left],key)){
-                if(left==high)  //右指针已经到最左
+            while (arr[--right] > key){  //右边找小于分界值key的数
+                if(right == low){
                     break;
-            }*/
-
-            while (right>low){
-                right--;
-                if(arr[right]<key)
-                    break;
+                }
             }
-            while (left<high){
+          /*  while (left < high){
                 left++;
-                if(arr[left]>key)
+                if(arr[left] > key){  //左边找大于分界值key的数
                     break;
+                }
+            }
+            while (right > low){
+                right--;
+                if(arr[right] < key){  //右边找小于分界值key的数
+                    break;
+                }
+            }*/
+            if(left < right){  //本趟找到左右两个位置
+                swap(arr,left,right);
+            }else{
+                break;
             }
 
-
-
-            //左右指针相遇都没有找到合适位置----本趟遍历 两边已经分好了
-            if(left>=right){   // *************************************一定要大于等于！！！！！  左指针可能会到头high
-                break;
-            }else {  //前面两个左右交换位置已经找到
-                swap(arr,left,right);
-            }//交换后继续移动左右指针
         }
-        //把key移到分界值right位置（righ=left，或者righ<left跳出循环的,而且right元素放的是小于key的元素，所以low应该取right的位置）
         swap(arr,low,right);
         return right;
-    }
-
-    public static boolean less(int a,int b){
-        if(a<b)
-            return true;
-        else
-            return  false;
     }
 
     public static void swap(int[] arr, int a, int b){

@@ -6,6 +6,9 @@ package com.demo.algorithm.sort;
  * 快速排序
  */
 public class Quick {
+    public static void main(String[] args) {
+
+    }
     //两者更小
     private static boolean less(Comparable c1, Comparable c2){
         return c1.compareTo(c2)<0;   //直接返回比较结果
@@ -61,7 +64,7 @@ public class Quick {
             }
             //left从左往右，找到一个比分界值大的值
             while(less(a[++left],key)){   //找right位置比分界值pivot大的  放分界值右边
-                if(left==high){  //扫描到low位置 退出
+                if(left==high){  //扫描到high位置 退出
                     break;
                 }
             }

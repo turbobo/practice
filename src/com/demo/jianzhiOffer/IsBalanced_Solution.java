@@ -1,8 +1,7 @@
-package com.demo.algorithm.jianzhiOffer;
+package com.demo.jianzhiOffer;
 
 import com.demo.tree.BinaryTree;
 import com.demo.tree.Node;
-import com.demo.tree.TreeNode;
 
 import java.util.HashMap;
 import java.util.LinkedList;

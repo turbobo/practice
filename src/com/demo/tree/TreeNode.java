@@ -21,7 +21,7 @@ public class TreeNode {
         left = null;
         right = null;
     }
-    TreeNode(int val) {
+    public TreeNode(int val) {
         this.val = val;
         left = null;
         right = null;
@@ -71,7 +71,7 @@ public class TreeNode {
 
 
 
-    //广度优先遍历
+    //广度优先遍历---用队列
     public void levelOrderTraversal(TreeNode node){
         if(node==null){
             System.out.print("empty tree");
@@ -91,7 +91,7 @@ public class TreeNode {
         }
     }
 
-    //深度优先遍历
+    //深度优先遍历---用栈
     public void depthTraversal(TreeNode node) {
         if (node == null) {
             System.out.print("empty tree");
@@ -101,9 +101,9 @@ public class TreeNode {
         stack.push(node);
         while (!stack.isEmpty()) {
             TreeNode rnode = stack.pop();
-            System.out.print(rnode.val);
+            System.out.print(rnode.val+"  ");
             if (rnode.right != null) {
-                stack.push(rnode.right);
+                stack.push(rnode.right);   //把当前根结点放进去，就可以找到左右结点
             }
             if (rnode.left != null) {
                 stack.push(rnode.left);

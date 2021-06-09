@@ -55,5 +55,13 @@ public class DeadLock2 implements Runnable {
         new Thread(td1).start();
         new Thread(td2).start();
 
+        //结果---两个线程不确定哪个先执行
+//        flag=0
+//        flag=1
+        //或者
+//        flag=0
+//        flag=1
+
+
     }
 }
