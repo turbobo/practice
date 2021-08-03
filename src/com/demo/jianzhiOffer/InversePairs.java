@@ -1,152 +1,121 @@
 package com.demo.jianzhiOffer;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-
-/**
- * @Author Jusven
- * @Date 2021/6/21 19:00
- * ÔÚÊı×éÖĞµÄÁ½¸öÊı×Ö£¬Èç¹ûÇ°ÃæÒ»¸öÊı×Ö´óÓÚºóÃæµÄÊı×Ö£¬ÔòÕâÁ½¸öÊı×Ö×é³ÉÒ»¸öÄæĞò¶Ô¡£ÊäÈëÒ»¸öÊı×é,Çó³öÕâ¸öÊı×éÖĞµÄÄæĞò¶ÔµÄ×ÜÊıP¡£²¢½«P¶Ô1000000007È¡Ä£µÄ½á¹ûÊä³ö¡£ ¼´Êä³öP%1000000007
- *
- * ¶ÔÓÚ50\%50%µÄÊı¾İ,size\leq 10^4size¡Ü10
- * 4
- *
- * ¶ÔÓÚ100\%100%µÄÊı¾İ,size\leq 10^5size¡Ü10
- * 5
- *
- *
- * ÊäÈëÃèÊö£º
- * ÌâÄ¿±£Ö¤ÊäÈëµÄÊı×éÖĞÃ»ÓĞµÄÏàÍ¬µÄÊı×Ö
- * Ê¾Àı1
- * ÊäÈë£º
- * [1,2,3,4,5,6,7,0]
- * ·µ»ØÖµ£º7
- */
 public class InversePairs {
+
+    //     private static long l = 0;
     private static int[] assist;
-    private static long res = 0;
+
     public static void main(String[] args) {
-//        int[] a = {392,49,3924958,4,48};
-//        int[] a = {364,637,341,406,747,995,234,971,571,219,993,407,416,366,315,301,601,650,418,355,460,505,360,965,516,648,727,667,465,849,455,181,486,149,588,233,144,174,557,67,746,550,474,162,268,142,463,221,882,576,604,739,288,569,256,936,275,401,497,82,935,983,583,523,697,478,147,795,380,973,958,115,773,870,259,655,446,863,735,784,3,671,433,630,425,930,64,266,235,187,284,665,874,80,45,848,38,811,267,575};
-        int[] a = {1,2,3,4,5,6,7,0};
-        //        Arrays.sort(a,0,2);
-//        System.out.println("Arrays.toString(a) = " + Arrays.toString(a));
-//        System.out.println("solution(a) = " + solution(a));
-//        sort(a);
-//        System.out.println("(int) (l%1000000007) = " + (int) (l%1000000007));
-        sort(a);
-        System.out.println("res = " + res);
+        int[] array = {1,2,3,4,5,6,7,0};
+        System.out.println("InversePairs(array) = " + InversePairs(array));
+        System.out.println();
     }
 
-    public static void sort(int[] arr){
-        assist = new int[arr.length];
-        sort(arr,0,arr.length-1);
-    }
-
-    public static void sort(int[] arr, int low, int high){
-        //ÓĞĞ§Ğ£Ñé
-        if(low>=high){
-            return;
+    public static int InversePairs(int [] array) {
+//         long l = 0;
+//         for (int i = 1; i < array.length; i++) {
+//             //ç»Ÿè®¡æ¯ä¸ªæ•°çš„é€†åº
+//             for (int j = 0; j < i; j++) {
+//                 if(array[i] < array[j]){
+//                     l++;
+//                 }
+//                if(j+1 < i && array[i] >= array[j+1]){
+//                     break;
+//                 }
+//             }
+//             //è¯¥æ•°åŠä¹‹å‰çš„æ•°æ®æ’åº
+//             Arrays.sort(array,0,i+1);
+//         }
+//         return (int) (l%1000000007);
+        if(array==null||array.length==0)
+        {
+            return 0;
         }
-        int mid = (low + high)/2;
-        sort(arr,low,mid);
-        sort(arr,mid+1,high);
-        merge(arr,low,mid,high);
+//       sort(array);
+//       return (int) (l%1000000007);
+
+        return sort(array);
+    }
+
+    public static int sort(int[] arr){
+        assist = new int[arr.length];
+        return sort(arr,0,arr.length-1);
+    }
+
+    public static int sort(int[] arr, int low, int high){
+        //æœ‰æ•ˆæ ¡éªŒ
+        if(low>=high){
+            return 0;
+        }
+        int res = 0;
+        int mid = low + (high - low)/2;
+        res += sort(arr,low,mid);
+        res %= 1000000007;
+        res += sort(arr,mid+1,high);
+        res %= 1000000007;
+        res += merge(arr,low,mid,high);
+        res %= 1000000007;
+        return res;
     }
 
     /**
-     * ¹é²¢ÅÅĞò£¬(21,7) (18,9)£¬Á½¸ö×ÓĞòÁĞµÄÄæĞòÎª2£¬µ±Á½¸ö×ÓĞòÁĞÓĞĞòÊ±£¬ÄæĞò»¹ÊÇ2
-     * ¹é²¢µÄÊ±ºò£¬ÅĞ¶Ï×óĞòÁĞ´óÓÚÓÒĞòÁĞµÄ¸öÊı¼´¿É
+     * å½’å¹¶æ’åºï¼Œ(21,7) (18,9)ï¼Œä¸¤ä¸ªå­åºåˆ—çš„é€†åºä¸º2ï¼Œå½“ä¸¤ä¸ªå­åºåˆ—æœ‰åºæ—¶ï¼Œé€†åºè¿˜æ˜¯2
+     * å½’å¹¶çš„æ—¶å€™ï¼Œåˆ¤æ–­å·¦åºåˆ—å¤§äºå³åºåˆ—çš„ä¸ªæ•°å³å¯
      */
-    public static void merge(int[] arr, int low,  int mid, int high){
-        //ÏÈ¶Ô×óÓÒ×ÓĞòÁĞÅÅĞò
-        int index=low;    //¸¨ÖúÊı×éÖ¸Õë
-        int p1=low;   //×ó×Ó×éÖ¸Õë
-        int p2=mid+1;   //ÓÒ×Ó×éÖ¸Õë
-        //Á½¸ö×Ó×é½øĞĞ±È½Ï£¬Ğ¡µÄ·Åµ½¸¨ÖúÊı×é
-        while(p1<=mid && p2<=high){   //Á½¸öÌõ¼ş   Ö»ÒªÒ»¸ö×Ó×é±éÀúÍê¾Í½áÊø
-            if(arr[p1] < arr[p2]){
-
+    public static int merge(int[] arr, int low,  int mid, int high){
+        int res = 0;
+        //å…ˆå¯¹å·¦å³å­åºåˆ—æ’åº
+        int index=low;    //è¾…åŠ©æ•°ç»„æŒ‡é’ˆ
+        int p1=low;   //å·¦å­ç»„æŒ‡é’ˆ
+        int p2=mid+1;   //å³å­ç»„æŒ‡é’ˆ
+        //ä¸¤ä¸ªå­ç»„è¿›è¡Œæ¯”è¾ƒï¼Œå°çš„æ”¾åˆ°è¾…åŠ©æ•°ç»„
+        while(p1<=mid && p2<=high){   //ä¸¤ä¸ªæ¡ä»¶   åªè¦ä¸€ä¸ªå­ç»„éå†å®Œå°±ç»“æŸ
+            if(arr[p1] > arr[p2]){
+                //æ ¸å¿ƒ---è®¡ç®—é€†åºæ•°
+                res = mid - p1 + 1;
+                res = res % 1000000007;
+                assist[index++] = arr[p2++];   //æŠŠå°çš„æ•°æ”¾åˆ°è¾…åŠ©æ•°ç»„ä¸­
+            }else{
                 assist[index++] = arr[p1++];
-            }else{   //×ó±ßp1Î»ÖÃ´óÓÚÓÒ±ßp2Î»ÖÃ
-                /**
-                 * ºËĞÄ¼ÆËã·½Ê½£º¡¾4£¬7¡¿  ¡¾1£¬2¡¿
-                 * 4´óÓÚ1£¬ÄÇÃ´×ó±ßÊı×é4ºóÃæµÄÊı¶¼´óÓÚ1£¬Ò»¹²ÓĞ£ºmid - p1 + 1
-                 * ÅĞ¶ÏÓÒ±ßÊı×éµÄÏÂÒ»¸öÊı£¬ºÍ×ó±ßÊı×éµÄ´óĞ¡¹ØÏµ
-                 */
-                res = res + mid - p1 + 1;
-                assist[index++] = arr[p2++];
             }
         }
 
-        //Èç¹û×ó×Ó×éÃ»ÓĞ±éÀúÍê£¬¾ÍË³Ğò±éÀú×ó×Ó×é(ÒÑ¾­ÓĞĞò)µÄÔªËØÖ±½Ó·ÅÈë¸¨ÖúÊı×é
+        //å¦‚æœå·¦å­ç»„æ²¡æœ‰éå†å®Œï¼Œå°±é¡ºåºéå†å·¦å­ç»„(å·²ç»æœ‰åº)çš„å…ƒç´ ç›´æ¥æ”¾å…¥è¾…åŠ©æ•°ç»„
         while(p1<=mid){
             assist[index++] = arr[p1++];
         }
-        //Èç¹ûÓÒ×Ó×éÃ»ÓĞ±éÀúÍê£¬¾ÍË³Ğò±éÀúÓÒ×Ó×é(ÒÑ¾­ÓĞĞò)µÄÔªËØÖ±½Ó·ÅÈë¸¨ÖúÊı×é
+        //å¦‚æœå³å­ç»„æ²¡æœ‰éå†å®Œï¼Œå°±é¡ºåºéå†å³å­ç»„(å·²ç»æœ‰åº)çš„å…ƒç´ ç›´æ¥æ”¾å…¥è¾…åŠ©æ•°ç»„
         while(p2<=high){
             assist[index++] = arr[p2++];
         }
 
-        //¿½±´¸¨ÖúÊı×éµ½Ô­Êı×é¶ÔÓ¦Î»ÖÃ   ±¾´ÎÊÇ´Ólowµ½highÎ»ÖÃµÄÔªËØ
-        for(int i=low;i<=high;i++){    //Ö¸ÕëÊÇ i ²»ÊÇindex
+        //æ‹·è´è¾…åŠ©æ•°ç»„åˆ°åŸæ•°ç»„å¯¹åº”ä½ç½®   æœ¬æ¬¡æ˜¯ä»lowåˆ°highä½ç½®çš„å…ƒç´ 
+        for(int i=low;index<=high;index++){
             arr[i] = assist[i];
         }
-
-        /*//ÏÂ´ÎÆğÊ¼×ø±ê
-        int start = mid + 1;
-        //ÓÒ×ÓĞòÁĞÖĞÒÑ¾­È·¶¨Ğ¡ÓÚ×ó×ÓĞòÁĞµÄ¸öÊı
-        int count = 0;
-        //´ËÊ±mid×óÓÒ×ÓĞòÁĞ²Å·Ö±ğÓĞĞò
-        for (int i = low; i <= mid; i++) {
-            int j = start;
-//            for (int j = start; j <= high; j++) {
-//                if(arr[i] > arr[j]){
-//                    l++;
-//                }
-                while(j<=high && arr[i] > arr[j]){
-                    j++;
-                }
-                if(j<=high){
-                    l = l+j-start+count;
-                    count = j-start;
-                    start = j;
-                }
-//                break;
-//            }
-            l = l % 1000000007;
-        }*/
-
+//         //ä¸‹æ¬¡èµ·å§‹åæ ‡
+//         int start = mid + 1;
+//         //å³å­åºåˆ—ä¸­å·²ç»ç¡®å®šå°äºå·¦å­åºåˆ—çš„ä¸ªæ•°
+//         int count = 0;
+//         //æ­¤æ—¶midå·¦å³å­åºåˆ—æ‰åˆ†åˆ«æœ‰åº
+//         for (int i = low; i <= mid; i++) {
+//             int j = start;
+// //            for (int j = start; j <= high; j++) {
+// //                if(arr[i] > arr[j]){
+// //                    l++;
+// //                }
+//                 while(j<=high && arr[i] > arr[j]){
+//                     j++;
+//                 }
+//                 if(j<=high){
+//                     l = l+j-start+count;
+//                     count = j-start;
+//                     start = j;
+//                 }
+// //                break;
+// //            }
+//             l = l % 1000000007;
+//         }
+        return res;
     }
-
-
-    public static int solution(int[] array){
-        long l = 0;
-        for (int i = 1; i < array.length; i++) {
-            //Í³¼ÆÃ¿¸öÊıµÄÄæĞò
-            for (int j = 0; j < i; j++) {
-                if(array[i] < array[j]){
-                    l++;
-                }
-                if(j+1 < i && array[i] >= array[j+1]){
-                    break;
-                }
-            }
-            //¸ÃÊı¼°Ö®Ç°µÄÊı¾İÅÅĞò
-            Arrays.sort(array,0,i+1);
-        }
-        return (int) (l%1000000007);
-    }
-
-//    public long findIndex(int[] array,int k, int kIndex){
-//        long left = 0;
-//        long right = kIndex;
-//        long mid = 0;
-//        while(){
-//
-//        }
-//    }
 }
