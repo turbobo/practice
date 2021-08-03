@@ -50,7 +50,7 @@ public class MyMerge {
         int right = mid+1;  //*********************************
         //辅助数组的指针，每次
         int i = low;
-        while(left<=mid&&right<=high){  //左子组没遍历完
+        while(left<=mid && right<=high){  //左子组没遍历完
             if(less(a[left],a[right]))    //递归后，左右两个子组已经有序，只需比较大小子组当前的第一个位置即可判断本次low到high的总体大小
                 assist[i++] = a[left++];
             else

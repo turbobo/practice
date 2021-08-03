@@ -26,7 +26,7 @@ public class ArrayFromToList {
         int[] arr = {1,2};
         List list1 = Arrays.asList(arr);
         System.out.println("list1 = " + list1);
-        //传入基本类型，用jdk1.8装箱，转为引用类型
+        //传入基本类型，用jdk1.8装箱，转为引用类型----速度慢
         List<Integer> list_Integer = Arrays.stream(arr).boxed().collect(Collectors.toList());
 //        ArrayList<Integer> list2 = (ArrayList<Integer>)Arrays.stream(arr).boxed().collect(Collectors.toList());
         System.out.println("list_Integer = " + list_Integer);
