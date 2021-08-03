@@ -27,17 +27,18 @@ import java.util.Comparator;
  */
 public class InversePairs {
     private static int[] assist;
-    private static long l = 0;
+    private static long res = 0;
     public static void main(String[] args) {
 //        int[] a = {392,49,3924958,4,48};
 //        int[] a = {364,637,341,406,747,995,234,971,571,219,993,407,416,366,315,301,601,650,418,355,460,505,360,965,516,648,727,667,465,849,455,181,486,149,588,233,144,174,557,67,746,550,474,162,268,142,463,221,882,576,604,739,288,569,256,936,275,401,497,82,935,983,583,523,697,478,147,795,380,973,958,115,773,870,259,655,446,863,735,784,3,671,433,630,425,930,64,266,235,187,284,665,874,80,45,848,38,811,267,575};
-        int[] a = {7,21,33,5,6,44};
+        int[] a = {1,2,3,4,5,6,7,0};
         //        Arrays.sort(a,0,2);
 //        System.out.println("Arrays.toString(a) = " + Arrays.toString(a));
 //        System.out.println("solution(a) = " + solution(a));
+//        sort(a);
+//        System.out.println("(int) (l%1000000007) = " + (int) (l%1000000007));
         sort(a);
-        System.out.println("(int) (l%1000000007) = " + (int) (l%1000000007));
-
+        System.out.println("res = " + res);
     }
 
     public static void sort(int[] arr){
@@ -68,8 +69,15 @@ public class InversePairs {
         //两个子组进行比较，小的放到辅助数组
         while(p1<=mid && p2<=high){   //两个条件   只要一个子组遍历完就结束
             if(arr[p1] < arr[p2]){
+
                 assist[index++] = arr[p1++];
-            }else{
+            }else{   //左边p1位置大于右边p2位置
+                /**
+                 * 核心计算方式：【4，7】  【1，2】
+                 * 4大于1，那么左边数组4后面的数都大于1，一共有：mid - p1 + 1
+                 * 判断右边数组的下一个数，和左边数组的大小关系
+                 */
+                res = res + mid - p1 + 1;
                 assist[index++] = arr[p2++];
             }
         }
@@ -84,11 +92,11 @@ public class InversePairs {
         }
 
         //拷贝辅助数组到原数组对应位置   本次是从low到high位置的元素
-        for(int i=low;index<=high;index++){
+        for(int i=low;i<=high;i++){    //指针是 i 不是index
             arr[i] = assist[i];
         }
 
-        //下次起始坐标
+        /*//下次起始坐标
         int start = mid + 1;
         //右子序列中已经确定小于左子序列的个数
         int count = 0;
@@ -110,7 +118,7 @@ public class InversePairs {
 //                break;
 //            }
             l = l % 1000000007;
-        }
+        }*/
 
     }
 
