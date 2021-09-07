@@ -1,4 +1,4 @@
-package com.demo.interview;
+package com.demo.interview.baidu;
 
 /**
  * @Author Jusven

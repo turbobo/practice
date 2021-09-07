@@ -1,6 +1,5 @@
 package com.demo.interview.EA;
 
-import com.demo.tree.Node;
 
 import java.util.LinkedList;
 import java.util.List;
