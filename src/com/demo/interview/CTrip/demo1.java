@@ -1,4 +1,4 @@
-package com.demo.interview.xiecheng;
+package com.demo.interview.CTrip;
 
 import java.util.Scanner;
 
