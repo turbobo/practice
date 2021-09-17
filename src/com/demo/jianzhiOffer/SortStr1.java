@@ -19,7 +19,7 @@ import java.util.Scanner;
  */
 public class SortStr1 {
     public static void main(String args[]){
-        Scanner sc = new Scanner(System.in);
+/*        Scanner sc = new Scanner(System.in);
         int n = Integer.parseInt(sc.nextLine());
         String[] str = new String[n];  //整行
 //        while(sc.hasNextLine()){   //不需要一直输入
@@ -31,10 +31,11 @@ public class SortStr1 {
                 System.out.print(str[i]);
             else
                 System.out.print(str[i]+" ");
-        }
+        }*/
 
-/*        Scanner in = new Scanner(System.in);
+        Scanner in = new Scanner(System.in);
         String n=in.nextLine();
+//        in.nextLine();
         String[] str=in.nextLine().split(" ");
         Arrays.sort(str);
         for(int i=0;i<str.length;i++){
@@ -42,7 +43,7 @@ public class SortStr1 {
                 System.out.print(str[i]);
             else
                 System.out.print(str[i]+" ");
-        }*/
+        }
 
 
     }

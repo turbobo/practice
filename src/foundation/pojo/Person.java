@@ -1,4 +1,4 @@
-package foundation;
+package foundation.pojo;
 
 /**
  * 目标接口

@@ -1,4 +1,4 @@
-package foundation;
+package foundation.pojo;
 
 /**
  * @Author Jusven
@@ -18,6 +18,6 @@ public class Student implements Person{
 
     @Override
     public void sayHello() {
-
+        System.out.println(this.hashCode());
     }
 }

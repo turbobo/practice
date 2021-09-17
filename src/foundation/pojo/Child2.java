@@ -1,4 +1,4 @@
-package foundation;
+package foundation.pojo;
 
 /**
  * @Author Jusven
@@ -11,5 +11,6 @@ public class Child2 extends Parent {
 
         super.print();
         System.out.println("Child2.print");
+        System.out.println(this.hashCode());
     }
 }

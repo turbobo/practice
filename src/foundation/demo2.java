@@ -1,7 +1,8 @@
 package foundation;
 
-import com.demo.jianzhiOffer.Main;
-import foundation.ArrayFromToList;
+import foundation.pojo.Child1;
+import foundation.pojo.Child2;
+import foundation.pojo.Parent;
 
 /**
  * @Author Jusven

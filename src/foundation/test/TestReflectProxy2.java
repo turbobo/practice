@@ -1,4 +1,7 @@
-package foundation;
+package foundation.test;
+
+import foundation.pojo.Person;
+import foundation.pojo.Student;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;

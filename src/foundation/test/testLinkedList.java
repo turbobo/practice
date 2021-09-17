@@ -1,4 +1,4 @@
-package foundation;
+package foundation.test;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
