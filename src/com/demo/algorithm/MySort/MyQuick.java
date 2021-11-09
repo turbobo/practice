@@ -82,6 +82,7 @@ public class MyQuick {
             }
 
         }
+        //right位置元素较小
         swap(arr,low,right);
         return right;
     }
