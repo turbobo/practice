@@ -4,8 +4,7 @@
 # IntelliJ project files
 .idea
 *.iml
-out
-gen
-target
 /out/
 /target/
+/target/classes/
+/out/production/practice/
