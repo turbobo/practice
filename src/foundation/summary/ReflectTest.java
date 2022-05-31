@@ -36,7 +36,7 @@ public class ReflectTest {
         Object ReflectTestObj = ReflectTestConstructor.newInstance();
         Object ReflectTestObj2 = ReflectTestConstructor.newInstance();
         Object ReflectTestObj3 = ReflectTestConstructor.newInstance();
-        //反射生产的不是一个对象
+        //反射产生的不是一个对象
         System.out.println(ReflectTestObj.toString());
         System.out.println(ReflectTestObj2.toString());
         System.out.println(ReflectTestObj3.toString());
@@ -45,7 +45,7 @@ public class ReflectTest {
         Method getPriceMethod = clz.getMethod("getPrice");
         System.out.println("ReflectTest Price:" + getPriceMethod.invoke(ReflectTestObj));
 
-//        Field[] fields = clz.getFields();  //包含私有属性
+//        Field[] fields = clz.getFields();  //不包含私有属性price
         Field[] fields = clz.getDeclaredFields();  //包含私有属性
         for (Field field : fields) {
             System.out.println("属性: " + field.getName());
