@@ -6,6 +6,10 @@ package com.demo.algorithm.sort;
  * 插入排序---类似于抓扑克牌
  */
 public class Insertion {
+    public static void main(String[] args) {
+        Comparable[] a = {12,32,6,3,745,43};
+        sort(a);
+    }
     //对数组元素排序
     public static void sort(Comparable[] a){
         for(int i=1;i<a.length;i++){  //默认有序序列就是第一个元素  无序序列就是第二个元素到末尾
