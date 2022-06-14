@@ -53,7 +53,7 @@ public class TestHashCode {
 
         HashSet<Person> hashset = new HashSet<>();
         Person jack31 = new Person(31, "jack31");
-        Person mary32 = new Person(31,"jack31");
+        Person mary32 = new Person(31,"jack32");
 
         //hashcode equals都不重写时  ===>  hashcode不同  equals结果false
 //        jack31.hashCode() = 356573597
@@ -88,6 +88,12 @@ public class TestHashCode {
         System.out.println("hashset.size() = " + hashset.size());
 
         //equals  重写时，根据name和age判断，对象相同，第二个对象不会加入hashset
+
+
+        //例如：hashcode根据age重写，equals根据age和name重写，
+        //那么两个对象的hashcode值相同，但是equals结果为false，第二个对象也会加入哈希表
+
+        //如果两个对象的age/name都相同，那么，第二个对象不会存入哈希表
         System.out.println("hashset.size() = " + hashset.size());
     }
 }
