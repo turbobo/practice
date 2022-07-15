@@ -1,7 +1,9 @@
 package foundation.summary;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: wangbo82
@@ -24,5 +26,8 @@ public class TestGenerics {
         List<String> a3 = new ArrayList<>();
         a3.add("hello");
         String a31 = a3.get(0);
+        Map<Integer,Integer> map = new HashMap<>();
+        map.getOrDefault(0, map.get(0)+1);
+
     }
 }
