@@ -30,75 +30,84 @@ public class findAnagrams {
 
 
         //一、借助hashset思路
-        /*int[] recordS = new int[26];
-        int[] recordP = new int[26];
+        // int[] recordS = new int[26];
+        // int[] recordP = new int[26];
 
-        for (int i = 0; i < p.length(); i++) {
-            recordP[p.charAt(i) - 'a']++;
-        }
-        //将记录次数转为字符串
-        String recordP_str = Arrays.toString(recordP);
+        // for (int i = 0; i < p.length(); i++) {
+        //     recordP[p.charAt(i) - 'a']++;
+        // }
+        // //将记录次数转为字符串
+        // String recordP_str = Arrays.toString(recordP);
 
-        //仅包含小写字母
-        int lengthP = p.length();
-        //字串起始指针
-        int j = 0;
-        for (int i = 0; i < s.length(); i++) {
-            recordS[s.charAt(i) - 'a']++;
-            if (i >= lengthP - 1) {
-                String recordS_str = Arrays.toString(recordS);
-                if (recordS_str.equals(recordP_str)) {
-                    res.add(i - lengthP + 1);
-                }
-                //无论上述是否相等，都要去掉当前第一个位置的元素,因为p长度固定，s往后遍历，个数会增加
-                recordS[s.charAt(i - lengthP + 1) - 'a']--;
+        // //仅包含小写字母
+        // int lengthP = p.length();
+        // //字串起始指针
+        // int j = 0;
+        // for (int i = 0; i < s.length(); i++) {
+        //     recordS[s.charAt(i) - 'a']++;
+        //     if (i >= lengthP - 1) {
+        //         String recordS_str = Arrays.toString(recordS);
+        //         if (recordS_str.equals(recordP_str)) {
+        //             res.add(i - lengthP + 1);
+        //         }
+        //         //无论上述是否相等，都要去掉当前第一个位置的元素,因为p长度固定，s往后遍历，个数会增加
+        //         recordS[s.charAt(i - lengthP + 1) - 'a']--;
 
-            }
-        }*/
+        //     }
+        // }
 
 
-        //二、按照小写字母 将字符串转为数组再转为字符串排序
-        /*char[] arrayP = p.toCharArray();
-        Arrays.sort(arrayP);
-        String strP = Arrays.toString(arrayP);
-        int lengthP = p.length();
-        for (int i = 0; i < s.length(); i++) {
-            if (i >= lengthP - 1) {
-                String substring = s.substring(i - lengthP + 1, i + 1);
-                char[] arrS = substring.toCharArray();
-                Arrays.sort(arrS);
-                String strS = Arrays.toString(arrS);
-                if (strP.equals(strS)) {
-                    res.add(i - lengthP + 1);
-                }
-            }
-        }*/
+        //二、按照小写字母 将字符串转为数组再转为字符串排序  ---  超出时间限制
+        // char[] arrayP = p.toCharArray();
+        // Arrays.sort(arrayP);
+        // String strP = Arrays.toString(arrayP);
+        // int lengthP = p.length();
+        // for (int i = 0; i < s.length(); i++) {
+        //     if (i >= lengthP - 1) {
+        //         String substring = s.substring(i - lengthP + 1, i + 1);
+        //         char[] arrS = substring.toCharArray();
+        //         Arrays.sort(arrS);
+        //         String strS = Arrays.toString(arrS);
+        //         if (strP.equals(strS)) {
+        //             res.add(i - lengthP + 1);
+        //         }
+        //     }
+        // }
+
 
         //三、滑动窗口
+
         int[] recordS = new int[26];
         int[] recordP = new int[26];
+
         for (int i = 0; i < p.length(); i++) {
             recordP[p.charAt(i) - 'a']++;
         }
-        //将记录次数转为字符串
-        String recordP_str = Arrays.toString(recordP);
 
-        //仅包含小写字母
-        int lengthP = p.length();
-        //字串起始指针
-        int j = 0;
-        for (int i = lengthP-1; i < s.length(); i++) {
+        for (int i = 0; i < s.length(); i++) {
             recordS[s.charAt(i) - 'a']++;
-            if (i >= lengthP - 1) {
-                String recordS_str = Arrays.toString(recordS);
-                if (recordS_str.equals(recordP_str)) {
-                    res.add(i - lengthP + 1);
+            if (i >= p.length() - 1) {
+                if (Arrays.equals(recordS, recordP)) {
+                    res.add(p.length() - 1);
                 }
-                //无论上述是否相等，都要去掉当前第一个位置的元素,因为p长度固定，s往后遍历，个数会增加
-                recordS[s.charAt(i - lengthP + 1) - 'a']--;
-
+                recordS[s.charAt(i - p.length() + 1) - 'a']--;
             }
         }
+
+//        if (Arrays.equals(recordS, recordP)) {
+//            res.add(0);
+//        }
+
+
+        //必须要在s 统计的同时才可以判断，否则获取的是该字符的总个数
+//        for (int i = 0; i < s.length() - p.length() + 1; i++) {
+//            int[] temp = Arrays.copyOfRange(recordS,i,i+p.length());
+//            if (Arrays.equals(temp, recordP)) {
+//                res.add(i);
+//            }
+//
+//        }
+
 
         return res;
     }
