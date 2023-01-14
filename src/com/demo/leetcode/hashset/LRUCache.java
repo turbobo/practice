@@ -1,7 +1,6 @@
 package com.demo.leetcode.hashset;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -22,13 +21,14 @@ public class LRUCache {
         DoubleLinkedNode pre;
         DoubleLinkedNode next;
 
-//        //虚拟结点
+//        //虚拟结点  创建链表的时候设置虚拟头尾结点
 //        DoubleLinkedList head;
 //        DoubleLinkedList tail;
 
         //结点值,分别对应map中的key -- value
-        int value;
         int key;
+        int value;
+
 
         public DoubleLinkedNode() {
         }
@@ -103,11 +103,11 @@ public class LRUCache {
 //            DoubleLinkedNode newNode = new DoubleLinkedNode(key, value);
             //存在直接替换即可
 //            cache.put(key,newNode);
-            //此处直接移动新结点保存，新结点不在链表中！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
+            //此处直接移动旧结点保存，新结点不在链表中，无法移动！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
 //            moveToHead(newNode);
 
 
-            //需要移动 旧结点，更新旧结点值即可，无需创建新结点
+            // 需要移动 旧结点，更新旧结点值即可，无需创建新结点
             node.value = value;  //引用类型，此node还存在map中，所以修改node之后，map中Node会更新，不用再cache.put(key,newNode);
             moveToHead(node);
 
@@ -122,7 +122,7 @@ public class LRUCache {
                 //移除末尾元素
                 DoubleLinkedNode last = removeTail();
                 //根据key移除！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！11
-//                cache.remove(last);  //未删除成功
+//                cache.remove(last);  //未删除成功，应该使用key匹配删除map元素
                 cache.remove(last.key);
                 --size;
             }
