@@ -10,38 +10,38 @@ import java.util.stream.Collector;
 public class topKFrequent {
     public static void main(String[] args) {
         Map<Integer, Integer> map = new HashMap<>();
-        map.put(1,23);
-        map.put(43,253);
-        map.put(98,3);
-        map.put(17,8976);
-        map.put(435,95);
-        int[] nums = new int[]{23,4534,234};
+//        map.put(1,23);
+//        map.put(43,253);
+//        map.put(98,3);
+//        map.put(17,8976);
+//        map.put(435,95);
+        int[] nums = new int[]{23,4534,234,23,65,45,654,56,56,6,6,6,67};
         for (int i : nums) {
             map.put(i, map.getOrDefault(i,0) + 1);
         }
 
 
-        // 1、先定义比较器
-        Comparator<Map.Entry<Integer, Integer>> comparator = new Comparator<Map.Entry<Integer, Integer>>() {
-
-            @Override
-            public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
-                // 降序
-                return o2.getValue() - o1.getValue();
-            }
-        };
-
-        // 2、map转为键值对，保存至List
-        ArrayList<Map.Entry<Integer, Integer>> entryArrayList = new ArrayList<>(map.entrySet());
-
-
-        // 3、使用比较器
-        Collections.sort(entryArrayList, comparator);
-
-        //entryArrayList已经排序
-        for (Map.Entry<Integer, Integer> entry : entryArrayList) {
-            System.out.println(entry.getKey() + " ==== " + entry.getValue());
-        }
+//        // 1、先定义比较器
+//        Comparator<Map.Entry<Integer, Integer>> comparator = new Comparator<Map.Entry<Integer, Integer>>() {
+//
+//            @Override
+//            public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
+//                // 降序
+//                return o2.getValue() - o1.getValue();
+//            }
+//        };
+//
+//        // 2、map转为键值对，保存至List
+//        ArrayList<Map.Entry<Integer, Integer>> entryArrayList = new ArrayList<>(map.entrySet());
+//
+//
+//        // 3、使用比较器
+//        Collections.sort(entryArrayList, comparator);
+//
+//        //entryArrayList已经排序
+//        for (Map.Entry<Integer, Integer> entry : entryArrayList) {
+//            System.out.println(entry.getKey() + " ==== " + entry.getValue());
+//        }
 
 //        List<Integer> list = new ArrayList<>();
 //        Integer[] integers = list.toArray(new Integer[list.size()]);
@@ -69,7 +69,7 @@ public class topKFrequent {
 
 
 
-        int k = 23;
+        int k = 3;
 
         // 题目 约定没有相同次数的 元素
         // 遍历map元素
