@@ -12,9 +12,12 @@ public class MyQuick {
         int[] a = {231,43,54,2,7,67,231,348,22,31,16,2,2,34};
 //        sort(a);
         System.out.println(Arrays.toString(a));
+        // PriorityQueue默认会按照优先级排序，如果元素实现了Comparable接口，就能排序
+        // 队列顶部就是最小元素
         PriorityQueue<Integer> queue = new PriorityQueue<Integer>(new Comparator<Integer>() {
             @Override
             public int compare(Integer o1, Integer o2) {
+                // 降序排序，队顶是最大元素---小根堆，保存的是最小的几个元素
                 return o2 - o1;
             }
         });
@@ -22,7 +25,7 @@ public class MyQuick {
             queue.offer(a[i]);
         }
         for (int i = 4; i < a.length; i++) {
-            if(queue.peek() > a[i]){
+            if(queue.peek() > a[i]){  //当前元素比 小根堆的最大元素小，则入队，入队后，队列又会重新排序
                 queue.poll();
                 queue.offer(a[i]);
             }
