@@ -14,7 +14,8 @@ class LockTicket {
     //票数
     private int num = 30;
     //定义可重入锁
-    private final ReentrantLock lock = new ReentrantLock();
+    private final ReentrantLock lock = new ReentrantLock(true);
+    // false 非公平锁：可能导致有些线程获取不到锁
     //卖票
     public void sell () {
         //上锁
