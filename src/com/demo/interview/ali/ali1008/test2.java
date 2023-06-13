@@ -1,4 +1,4 @@
-package com.demo.interview.ali1008;
+package com.demo.interview.ali.ali1008;
 
 import java.util.Arrays;
 import java.util.Scanner;

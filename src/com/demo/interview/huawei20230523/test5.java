@@ -41,6 +41,7 @@ public class test5 {
         Map<Integer,Integer> map = new HashMap<>();
 
         // 双指针？滑动窗口
+        // 两个指针都是从头到尾，所以O(n*n)
         int left = 0;
         while (left < s.length()) {
             int right = left+1;
