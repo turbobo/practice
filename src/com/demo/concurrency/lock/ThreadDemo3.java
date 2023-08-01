@@ -29,12 +29,16 @@ class ShareResource {
         lock.lock();
         try {
             // 判断
+            System.out.println(" 1 start ");
+
             while (flag != 1) {
                 condition1.await();
+                System.out.println("唤醒 1");
+
             }
 
             // 干活
-            for (int i = 1; i <= 5; i++) {
+            for (int i = 1; i <= 1; i++) {
                 System.out.println(Thread.currentThread().getName() + " :: " + i + " 轮数: " + loop);
             }
             // 修改标志位
@@ -57,12 +61,16 @@ class ShareResource {
         lock.lock();
         try {
             // 判断
+            System.out.println(" 2 start ");
+
             while (flag != 2) {
                 condition2.await();
+                System.out.println("唤醒 2");
+
             }
 
             // 干活
-            for (int i = 1; i <= 10; i++) {
+            for (int i = 1; i <= 1; i++) {
                 System.out.println(Thread.currentThread().getName() + " :: " + i + " 轮数: " + loop);
             }
             // 修改标志位
@@ -85,12 +93,14 @@ class ShareResource {
         lock.lock();
         try {
             // 判断
+            System.out.println(" 3 start ");
             while (flag != 3) {
                 condition3.await();
+                System.out.println("唤醒 3");
             }
 
             // 干活
-            for (int i = 1; i <= 15; i++) {
+            for (int i = 1; i <= 1; i++) {
                 System.out.println(Thread.currentThread().getName() + " :: " + i + " 轮数: " + loop);
             }
             // 修改标志位
