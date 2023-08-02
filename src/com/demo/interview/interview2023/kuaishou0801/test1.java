@@ -12,8 +12,16 @@ import java.util.Set;
 public class test1 {
     public static void main(String[] args) {
         System.out.println(getMaxSubString("ABDFAKED"));
+        System.out.println(getMaxSubString("bbbb"));
         System.out.println(getMaxSubString2("ABDFAKED"));
+        System.out.println(getMaxSubString2("bbbb"));
     }
+
+    /**
+     *
+     * @param str
+     * @return
+     */
     public static String getMaxSubString(String str) {
         if (str.length() == 0) {
             return "";
@@ -34,16 +42,23 @@ public class test1 {
                     // left = 0  right=1   长度为2不是1 ！！！！！！！！！！！！！！！！！！！！！！！！！！！！
                     if (max < (right-left+1)) {
                         l = left;
+                        max = right-left+1;
                     }
-                    max = Math.max(max, right-left+1);
+//                    max = Math.max(max, right-left+1);
                     right++;
                 } else {
                     break;
                 }
 
             }
+
             set.clear();
             left++;
+        }
+        // 最后整体判断: left已经遍历结束，但是最大长度还是0，说明字符都相同
+        if(left == str.length() && max==0) {
+            // bbbb  全部都是重复
+            return str.substring(0 ,1);
         }
         if (max == 0) {
             return "";
@@ -56,6 +71,9 @@ public class test1 {
 
     // 借助set  当右指针遇到重复字符，则依次将左边的字符删除，直到把当前右指针位置的相同元素删除
     public static String getMaxSubString2(String str) {
+        if (null == str || str.length() == 0) {
+            return "";
+        }
         int max = 0;
         int left = 0;
         Set<Character> set = new HashSet<>();
