@@ -96,7 +96,7 @@ public class test1 {
                     if (max < set.size()) {
                         left = slow;
                         //
-                        max =set.size();
+                        max = set.size();
 //                        max = Math.max(max, set.size());  //这里比较
                     }
                 }

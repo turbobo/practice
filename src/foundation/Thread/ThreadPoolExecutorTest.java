@@ -1,11 +1,16 @@
 package foundation.Thread;
 
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+
 import java.util.concurrent.*;
 
 public class ThreadPoolExecutorTest {
     public static void main(String[] args) throws InterruptedException {
         RejectedExecutionHandlerImpl handler;
         handler = new RejectedExecutionHandlerImpl();
+        ThreadPoolTaskExecutor threadPoolTaskExecutor = new ThreadPoolTaskExecutor();
+        ThreadPoolExecutor threadPoolExecutor = threadPoolTaskExecutor.getThreadPoolExecutor();
+
         ThreadPoolExecutor poolExecutor = new ThreadPoolExecutor(4, 5, 20L, TimeUnit.MILLISECONDS, new ArrayBlockingQueue<Runnable>(100));
         //一次性全部放进去
         for (int i = 0; i < 98; i++) {
@@ -13,6 +18,9 @@ public class ThreadPoolExecutorTest {
             poolExecutor.execute(appTask);
             System.out.println("线程池中线程的数目:" + poolExecutor.getPoolSize() + ",线程池中等待的队列数目：" + poolExecutor.getQueue().size() + ";线程池中已执行完毕的任务数据:" + poolExecutor.getCompletedTaskCount());
         }
+
+        poolExecutor.getLargestPoolSize();
+//        poolExecutor.set();
 
 /*        for (int i = 21; i < 29; i++) {
             AppTask appTask = new AppTask(i);
