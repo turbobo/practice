@@ -16,6 +16,15 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @Date 2024/3/3 14:01
  *
  * 不加注解，不交给spring管理，需要创建多个线程池
+ *
+ * 继承ThreadPoolExecutor线程池，加上线程名称属性，
+ * 自定义线程工厂来自定义线程名称
+ * 重写线程执行前方法、线程执行后、当线程池从运行状态变更到TERMINATED状态之前调用的方法，监控线程池运行情况，做到实时预警，打印线程信息
+ * 重写shutdown线程池延迟关闭时（等待线程池里的任务都执行完毕），统计线程池情况
+ * 线程池的创建、销毁 都交给 MyThreadPoolExecutorManage统一管理，加入到map中，方便页面统一获取展示信息
+ * MyThreadPoolExecutorManage提供方法，修改线程池的 核心线程数、最大线程数、非核心闲置线程存活时间
+ *
+ *
  */
 public class MyThreadPoolExecutor extends ThreadPoolExecutor implements DisposableBean {
 //    @Resource
@@ -32,6 +41,12 @@ public class MyThreadPoolExecutor extends ThreadPoolExecutor implements Disposab
      * 线程池名称，一般以业务名称命名，方便区分
      */
     private String poolName;
+
+    // TODO 阈值配置
+
+    // TODO 是否告警
+
+
 
     public String getPoolName() {
         return poolName;
@@ -92,6 +107,7 @@ public class MyThreadPoolExecutor extends ThreadPoolExecutor implements Disposab
     protected void beforeExecute(Thread t, Runnable r) {
         System.out.println("任务线程执行前");
         threadLocal.set(System.currentTimeMillis());
+        threadLocal.remove();
         // Worker线程执行任务之前会调用的方法；
 //        super.beforeExecute(t, r);
     }
@@ -157,5 +173,12 @@ public class MyThreadPoolExecutor extends ThreadPoolExecutor implements Disposab
         // TODO 线程池管理map 移除
 
 
+    }
+
+    // 当线程池从运行状态变更到TERMINATED状态之前调用的方法
+    @Override
+    protected void terminated() {
+        // 统计线程池情况
+        super.terminated();
     }
 }

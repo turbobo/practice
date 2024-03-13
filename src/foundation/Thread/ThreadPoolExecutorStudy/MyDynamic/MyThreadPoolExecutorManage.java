@@ -12,15 +12,28 @@ import java.util.concurrent.TimeUnit;
 /**
  * @Author Jusven
  * @Date 2024/3/3 17:22
+ * 执行任务时，从map中获取线程池对象，判断其状态，再去执行任务
  */
 @Component
 public class MyThreadPoolExecutorManage {
-    private static MyThreadPoolExecutorManage intance = null;
+    private volatile static MyThreadPoolExecutorManage intance;
     // 可以做单例
 
     public static MyThreadPoolExecutorManage getInstance() {
+        //第一层检查，检查是否有引用指向对象，高并发情况下会有多个线程同时进入
         if (null == intance) {
-            intance = new MyThreadPoolExecutorManage();
+            //双重检查，防止多个线程同时进入第一层检查(因单例模式只允许存在一个对象，故在创建对象之前无引用指向对象，所有线程均可进入第一层检查)
+            //当某一线程获得锁创建一个Singleton对象时,即已有引用指向对象，singleton不为空，从而保证只会创建一个对象
+            //假设没有第二层检查，那么第一个线程创建完对象释放锁后，后面进入对象也会创建对象，会产生多个对象
+            //synchronized只能保证有序性，但无法禁止指令重排
+            synchronized (MyThreadPoolExecutorManage.class) {
+
+
+                //第二层检查，第二个线程获取到的singleton是内存最新的值，因为volatile修饰了
+                if(intance == null){
+                    intance = new MyThreadPoolExecutorManage();
+                }
+            }
         }
         return intance;
     }
@@ -49,6 +62,15 @@ public class MyThreadPoolExecutorManage {
         // TODO 加入线程池管理map
         getThreadPoolExecutorMap().put(poolName, myThreadPoolExecutor);
         return myThreadPoolExecutor;
+    }
+
+    // 销毁线程池
+    public void cancelThreadPool(String poolName) {
+        MyThreadPoolExecutor myThreadPoolExecutor = getThreadPoolExecutorMap().get(poolName);
+        if (null != myThreadPoolExecutor) {
+            myThreadPoolExecutor.shutdown();
+        }
+
     }
 
 
