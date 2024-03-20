@@ -2,10 +2,7 @@ package com.demo.interview.xtransfer;
 
 import com.demo.tree.TreeNode;
 
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * @Author Jusven
@@ -17,18 +14,19 @@ public class Xtransfer {
             TreeNode root = new TreeNode(1);
             root.left = new TreeNode(2);
             root.right = new TreeNode(3);
-            root.left.left = new TreeNode(4);
+//            root.left.left = new TreeNode(4);
             root.left.right = new TreeNode(5);
-            root.right.left = new TreeNode(6);
+//            root.right.left = new TreeNode(6);
             root.right.right = new TreeNode(7);
 //        printTree(root);
-        deepFirst(root);
+        WideFirst(root);
     }
 
     // 借助队列
     // 先保存左节点
 
-    public static void printTree (TreeNode node) {
+    // 层序遍历/广度优先
+    public static void WideFirst (TreeNode node) {
         //
         Queue<TreeNode> deque = new LinkedList<>();
         TreeNode p = node;
@@ -90,6 +88,13 @@ public class Xtransfer {
         //
         //对于栈的操作，可以使用 push() 方法将元素压入栈顶，使用 pop() 方法从栈顶移除并返回元素，或者使用 peek() 方法查看栈顶元素。
         Deque<TreeNode> deque = new LinkedList<>();
+
+//        PriorityQueue<TreeNode> queue = new PriorityQueue<>(new Comparator<TreeNode>() {
+//            @Override
+//            public int compare(TreeNode o1, TreeNode o2) {
+//                return 0;
+//            }
+//        });
         TreeNode p = node;
         // 首先当前节点
         deque.push(p);
@@ -124,5 +129,66 @@ public class Xtransfer {
 //            // 弹出
 //            p = p.left;
         }
+    }
+
+    // 中序
+    public List<Integer> preorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+
+        Deque<TreeNode> stack = new LinkedList<>();
+        stack.push(root);
+
+        while (!stack.isEmpty()) {
+            TreeNode curr = stack.pop();
+            res.add(curr.val);
+
+            // 先压入右节点
+            if (curr.right != null) {
+                stack.push(curr.right);
+            }
+            if (curr.left != null) {
+                stack.push(curr.left);
+            }
+        }
+
+        return res;
+    }
+
+    public void inOrder(TreeNode root){
+
+
+    }
+
+
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if (root == null) {
+            return res;
+        }
+
+        Deque<TreeNode> stack1 = new LinkedList<>(); // 第一个栈用于存放待访问的节点
+        Deque<TreeNode> stack2 = new LinkedList<>(); // 第二个栈用于存放遍历结果
+
+        stack1.push(root);
+        while (!stack1.isEmpty()) {
+            TreeNode curr = stack1.pop();
+            stack2.push(curr);
+
+            if (curr.left != null) {
+                stack1.push(curr.left);
+            }
+            if (curr.right != null) {
+                stack1.push(curr.right);
+            }
+        }
+
+        while (!stack2.isEmpty()) {
+            res.add(stack2.pop().val);
+        }
+
+        return res;
     }
 }
