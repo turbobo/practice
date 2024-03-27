@@ -18,8 +18,7 @@ public class testProxy {
         InvocationHandler handler = new UserProxy(userService);
 
         // 动态生成代理对象
-        UserService proxy = (UserService) Proxy.newProxyInstance(UserServiceImpl.class.getClassLoader(), new Class<?>[]{UserService.class}, handler);
-
+        UserService proxy = (UserService) Proxy.newProxyInstance(UserServiceImpl.class.getClassLoader(), userService.getClass().getInterfaces(), handler);
         // 实际是调用了代理对象的 invoke方法
         proxy.addUser();
 

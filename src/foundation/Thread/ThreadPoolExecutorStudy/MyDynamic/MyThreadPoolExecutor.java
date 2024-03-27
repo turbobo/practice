@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -26,6 +27,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  *
  *
  */
+
+// 需要单例，需要创建多个
 public class MyThreadPoolExecutor extends ThreadPoolExecutor implements DisposableBean {
 //    @Resource
 //    private MyThreadPoolExecutorManage myThreadPoolExecutorManage;
@@ -36,15 +39,18 @@ public class MyThreadPoolExecutor extends ThreadPoolExecutor implements Disposab
     /**
      * 默认拒绝策略
      */
-    private static RejectedExecutionHandler defaultHandler = new AbortPolicy();
+    private static RejectedExecutionHandler defaultHandler = new MyAbortPolicy();
     /**
      * 线程池名称，一般以业务名称命名，方便区分
      */
     private String poolName;
 
     // TODO 阈值配置
+    // 活跃线程阈值
+    private Integer activeThreshold;
 
-    // TODO 是否告警
+    // TODO 是否告警 1=开启，0-关闭
+    private Integer alarmFlag;
 
 
 
@@ -54,6 +60,22 @@ public class MyThreadPoolExecutor extends ThreadPoolExecutor implements Disposab
 
     public void setPoolName(String poolName) {
         this.poolName = poolName;
+    }
+
+    public Integer getActiveThreshold() {
+        return activeThreshold;
+    }
+
+    public void setActiveThreshold(Integer activeThreshold) {
+        this.activeThreshold = activeThreshold;
+    }
+
+    public Integer getAlarmFlag() {
+        return alarmFlag;
+    }
+
+    public void setAlarmFlag(Integer alarmFlag) {
+        this.alarmFlag = alarmFlag;
     }
 
     // todo 自定义线程工厂，可以定义名称规则
@@ -67,7 +89,14 @@ public class MyThreadPoolExecutor extends ThreadPoolExecutor implements Disposab
                                 long keepAliveTime, TimeUnit unit, Integer capacity) {
         super(corePoolSize, maximumPoolSize, keepAliveTime, unit, new LinkedBlockingQueue<>(capacity), myThreadFactoty, defaultHandler);
         this.poolName = poolName;
+    }
 
+    public MyThreadPoolExecutor(String poolName, Integer activeThreshold, Integer alarmFlag, int corePoolSize, int maximumPoolSize,
+                                long keepAliveTime, TimeUnit unit, Integer capacity) {
+        super(corePoolSize, maximumPoolSize, keepAliveTime, unit, new LinkedBlockingQueue<>(capacity), myThreadFactoty, defaultHandler);
+        this.poolName = poolName;
+        this.activeThreshold = activeThreshold;
+        this.alarmFlag = alarmFlag;
     }
 
     public MyThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime, TimeUnit unit, BlockingQueue<Runnable> workQueue) {
@@ -76,6 +105,7 @@ public class MyThreadPoolExecutor extends ThreadPoolExecutor implements Disposab
 
     @Override
     public void destroy() throws Exception {
+        new ThreadPoolExecutor(1,2,3,TimeUnit.SECONDS, new LinkedBlockingQueue<>());
 
     }
 
@@ -105,9 +135,9 @@ public class MyThreadPoolExecutor extends ThreadPoolExecutor implements Disposab
 
     @Override
     protected void beforeExecute(Thread t, Runnable r) {
-        System.out.println("任务线程执行前");
-        threadLocal.set(System.currentTimeMillis());
-        threadLocal.remove();
+//        System.out.println("任务线程执行前");
+//        threadLocal.set(System.currentTimeMillis());
+//        threadLocal.remove();
         // Worker线程执行任务之前会调用的方法；
 //        super.beforeExecute(t, r);
     }
@@ -116,25 +146,33 @@ public class MyThreadPoolExecutor extends ThreadPoolExecutor implements Disposab
     public void afterExecute(Runnable r, Throwable t) {
         System.out.println("任务线程执行后");
 
-        long costTime = System.currentTimeMillis() - threadLocal.get();
-        // TODO 使用完之后，记得清理ThreadLocal，防止内存泄漏
-        threadLocal.remove();
+//        long costTime = System.currentTimeMillis() - threadLocal.get();
+//        // TODO 使用完之后，记得清理ThreadLocal，防止内存泄漏
+//        threadLocal.remove();
 
-        logger.info("{}-pool-monitor: " +
-                        "任务耗时: {} ms, 初始线程数: {}, 核心线程数: {}, 执行的任务数量: {}, " +
-                        "已完成任务数量: {}, 任务总数: {}, 队列里缓存的任务数量: {}, 池中存在的最大线程数: {}, " +
-                        "最大允许的线程数: {},  线程空闲时间: {}, 线程池是否关闭: {}, 线程池是否终止: {}",
-                this.poolName,
-                costTime, this.getPoolSize(), this.getCorePoolSize(), this.getActiveCount(),
-                this.getCompletedTaskCount(), this.getTaskCount(), this.getQueue().size(), this.getLargestPoolSize(),
-                this.getMaximumPoolSize(), this.getKeepAliveTime(TimeUnit.MILLISECONDS), this.isShutdown(), this.isTerminated());
+//        logger.info("{}-pool-monitor: " +
+//                        "任务耗时: {} ms, 初始线程数: {}, 核心线程数: {}, 执行的任务数量: {}, " +
+//                        "已完成任务数量: {}, 任务总数: {}, 队列里缓存的任务数量: {}, 池中存在的最大线程数: {}, " +
+//                        "最大允许的线程数: {},  线程空闲时间: {}, 线程池是否关闭: {}, 线程池是否终止: {}",
+//                this.poolName,
+//                null, this.getPoolSize(), this.getCorePoolSize(), this.getActiveCount(),
+//                this.getCompletedTaskCount(), this.getTaskCount(), this.getQueue().size(), this.getLargestPoolSize(),
+//                this.getMaximumPoolSize(), this.getKeepAliveTime(TimeUnit.MILLISECONDS), this.isShutdown(), this.isTerminated());
 
         // TODO 阈值报警
 //        super.afterExecute(r, t);
+        if (null != this.getAlarmFlag() && 1 == this.getAlarmFlag()) {
+            int i = this.getActiveCount() / this.getMaximumPoolSize() * 100;
+            if (i >= this.getActiveThreshold()) {
+                logger.info("线程池 " + this.getPoolName() + " 活跃线程数 已到达 " + i + "% 已超过阈值 " + this.getActiveThreshold() + "% 建议调整核心线程数或者最大线程" +
+                        " 最大建议值 核心线程数 " + " 最大线程数 ");
+            }
+        }
+
     }
 
 
-// TODO 自定义销毁方法，打印信息
+    // TODO 自定义销毁方法，打印信息
 
     /**
      * 线程池延迟关闭时（等待线程池里的任务都执行完毕），统计线程池情况
@@ -151,7 +189,9 @@ public class MyThreadPoolExecutor extends ThreadPoolExecutor implements Disposab
         }
 
         // TODO 线程池管理map 移除
-        MyThreadPoolExecutorManage.getInstance().getThreadPoolExecutorMap().remove(poolName);
+        if (!CollectionUtils.isEmpty(MyThreadPoolExecutorManage.getInstance().getThreadPoolExecutorMap())) {
+            MyThreadPoolExecutorManage.getInstance().getThreadPoolExecutorMap().remove(poolName);
+        }
     }
 
     /**

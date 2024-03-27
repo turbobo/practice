@@ -7,6 +7,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -44,7 +45,7 @@ public class MyThreadPoolExecutorManage {
      * 存储线程池对象
      * 每个线程池 手动去实现MyThreadPoolExecutor，创建后加入map，销毁后从map移除
      */
-    public Map<String, MyThreadPoolExecutor> threadPoolExecutorMap = new HashMap<>();
+    public Map<String, MyThreadPoolExecutor> threadPoolExecutorMap = new ConcurrentHashMap<>();
 
     public Map<String, MyThreadPoolExecutor> getThreadPoolExecutorMap() {
         // 打印当前线程池管理信息
@@ -56,11 +57,12 @@ public class MyThreadPoolExecutorManage {
     }
 
     // 创建线程池
-    public MyThreadPoolExecutor createThreadPool(String poolName, int corePoolSize, int maximumPoolSize,
+    public MyThreadPoolExecutor createThreadPool(String poolName, Integer activeThreshold, Integer alarmFlag, int corePoolSize, int maximumPoolSize,
                                  long keepAliveTime, TimeUnit unit, Integer capacity) {
-        MyThreadPoolExecutor myThreadPoolExecutor = new MyThreadPoolExecutor(poolName, corePoolSize, maximumPoolSize, keepAliveTime, TimeUnit.SECONDS, capacity);
+        MyThreadPoolExecutor myThreadPoolExecutor = new MyThreadPoolExecutor(poolName, activeThreshold, alarmFlag, corePoolSize, maximumPoolSize, keepAliveTime, TimeUnit.SECONDS, capacity);
         // TODO 加入线程池管理map
         getThreadPoolExecutorMap().put(poolName, myThreadPoolExecutor);
+        // 初始化
         return myThreadPoolExecutor;
     }
 
@@ -70,7 +72,6 @@ public class MyThreadPoolExecutorManage {
         if (null != myThreadPoolExecutor) {
             myThreadPoolExecutor.shutdown();
         }
-
     }
 
 

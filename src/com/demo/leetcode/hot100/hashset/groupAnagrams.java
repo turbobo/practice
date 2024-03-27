@@ -1,10 +1,11 @@
-package com.demo.leetcode.hot100;
+package com.demo.leetcode.hot100.hashset;
 
 import java.util.*;
 
 /**
  * @Author Jusven
  * @Date 2024/3/13 15:37
+ * 母异位词分组
  */
 public class groupAnagrams {
     public List<List<String>> groupAnagrams(String[] strs) {
