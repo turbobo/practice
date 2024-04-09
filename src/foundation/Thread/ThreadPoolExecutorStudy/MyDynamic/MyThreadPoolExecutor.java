@@ -23,6 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 重写线程执行前方法、线程执行后、当线程池从运行状态变更到TERMINATED状态之前调用的方法，监控线程池运行情况，做到实时预警，打印线程信息
  * 重写shutdown线程池延迟关闭时（等待线程池里的任务都执行完毕），统计线程池情况
  * 线程池的创建、销毁 都交给 MyThreadPoolExecutorManage统一管理，加入到map中，方便页面统一获取展示信息
+ * 销毁时，清除map对象的引用，将所有线程池对象引用置为null
  * MyThreadPoolExecutorManage提供方法，修改线程池的 核心线程数、最大线程数、非核心闲置线程存活时间
  *
  *
@@ -168,6 +169,16 @@ public class MyThreadPoolExecutor extends ThreadPoolExecutor implements Disposab
                         " 最大建议值 核心线程数 " + " 最大线程数 ");
             }
         }
+
+    }
+
+    // 打印线程池参数
+    public void print(MyThreadPoolExecutor executor) {
+        // int queueSize = queue.size(); // 获取队列中的任务数量
+        // int remainingCapacity = queue.remainingCapacity(); // 获取队列中剩余的容量
+        // 队列占用率 queue.size() / (queue.size()+queue.remainingCapacity())
+        logger.info(executor.getPoolName() + executor.getCorePoolSize() + executor.getMaximumPoolSize() + executor.getActiveThreshold() + executor.getAlarmFlag() + executor.getActiveCount()
+        + executor.getQueue().remainingCapacity() + executor.getQueue().size()   );
 
     }
 

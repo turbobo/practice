@@ -1,10 +1,13 @@
 package com.demo.concurrency.thread;
 
+import org.springframework.context.ApplicationContext;
+
 /**
  * @Author Jusven
  * @Date 2023/6/21 15:49
  */
 public class TestJoin {
+    private static ApplicationContext context = null;
     public static void main(String[] args) {
         Thread t1 = new Thread(() -> {
             System.out.println(Thread.currentThread().getName() + " is running ");
