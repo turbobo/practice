@@ -59,7 +59,7 @@ public class Xtransfer {
 
     }
 
-    // 深度优先
+    // 深度优先：分为 前中后 序 3种
     public static void deepFirst(TreeNode node) {
 
 
@@ -100,8 +100,8 @@ public class Xtransfer {
         deque.push(p);
         while (deque.size()>0) {
             // 首先当前节点
-            TreeNode poll = deque.pop();  // 需要弹出所有元素
-            System.out.println(poll.val);
+            TreeNode pop = deque.pop();  // 需要弹出所有元素
+            System.out.println(pop.val);
 
 //            if (null != p.left) {
 //                deque.offer(p.left);
@@ -120,18 +120,18 @@ public class Xtransfer {
 //            }
 
             // 先遍历左节点---深度优先
-            if (null != poll.right) {
-                deque.push(poll.right);
+            if (null != pop.right) {
+                deque.push(pop.right);
             }
-            if (null != poll.left) {
-                deque.push(poll.left);
+            if (null != pop.left) {
+                deque.push(pop.left);
             }
 //            // 弹出
 //            p = p.left;
         }
     }
 
-    // 中序
+    // 前序序：栈，右子树先入栈
     public List<Integer> preorderTraversal(TreeNode root) {
         List<Integer> res = new ArrayList<>();
         if (root == null) {
@@ -157,12 +157,28 @@ public class Xtransfer {
         return res;
     }
 
+    // 中序：左根右，栈，
     public void inOrder(TreeNode root){
-
+        if (root == null) {
+            return;
+        }
+        LinkedList<TreeNode> stack = new LinkedList<>();
+        TreeNode current = root;
+        while (current != null || !stack.isEmpty()) {
+            while (current != null) {
+                stack.push(current); // 根节点先入栈
+                current = current.left; // 左子树后入栈
+            }
+            current = stack.pop(); // 弹出左节点
+            System.out.print(current.val + " ");
+            // 再遍历右节点，下一轮会首先弹出根节点，再将右节点入栈
+            current = current.right;
+        }
 
     }
 
 
+    // 后序：左右根，用两个栈，第一个栈保存根左右的顺序
     public List<Integer> postorderTraversal(TreeNode root) {
         List<Integer> res = new ArrayList<>();
         if (root == null) {
