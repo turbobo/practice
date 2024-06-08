@@ -23,7 +23,7 @@ public class EventPublisher implements ApplicationEventPublisherAware {
 
     // 发布事件
     public void publish(String message) {
-//        applicationEventPublisher.publishEvent(new EventDto(new EventListener(), message));
+        applicationEventPublisher.publishEvent(new EventDto(new EventListener(), message));
 //        applicationEventPublisher.publishEvent(new EventDto(this, message));
     }
 }

@@ -52,14 +52,14 @@ public class test1 {
 
 
 
-//        System.out.println(canConstruct(target, arr)); // true
+        System.out.println(canConstruct(str, arr)); // true
 
 
-        System.out.println(concat(str, arr)); //
+//        System.out.println(my_concat(str, arr)); //
     }
 
 
-    public static boolean concat(String str, String[] arr) {
+    public static boolean my_concat(String str, String[] arr) {
         if (null == str || str.length() == 0 || null == arr || arr.length == 0) {
             return false;
         }

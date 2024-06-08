@@ -13,7 +13,8 @@ class ShareResource {
     // 定义两个方法
     public synchronized void func_A() throws InterruptedException {
         // 判断
-        if (flag != 1) {
+//        if (num %2  != 0) {
+            if (flag != 1) {
             this.wait();
         }
         // 执行
@@ -27,7 +28,8 @@ class ShareResource {
     }
     public synchronized void func_B() throws InterruptedException {
         // 判断
-        if (flag != 2) {
+//        if (num %2 == 0) {
+            if (flag != 2) {
             this.wait();
         }
         // 执行

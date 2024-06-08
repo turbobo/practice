@@ -43,6 +43,8 @@ public class TablePartitionManagerTask {
 //        String stringOfLockExpireTime = instanceName + "_" + String.valueOf(lockExpireTime);
         String lockKey = "acs:acsRedis"  + ":acsTaskLockKey";
         RedisDistributedLock lock = new RedisDistributedLock(lockKey, 3, 500L, ACCESS_TASK_EXPIRE_TIEM, redisTemplate);
+
+        // TODO 释放锁时校验：分布式实例所在ip地址 + 实例名称 + 获取锁的时间
         String lockValue = "127.0.0.1" + "_" + "acs.1"  + "_" + System.currentTimeMillis();
         try {
             if (lock.tryLock(lockValue)) { // 加锁成功
@@ -62,6 +64,7 @@ public class TablePartitionManagerTask {
                     Long startLockTime = Long.valueOf(split[2]);
                     if (System.currentTimeMillis() - startLockTime <= (long) (lock.getExpireTime() * 0.25)) {
                         long currentTimeMillis = System.currentTimeMillis();
+                        // TODO lua脚本，先判断key存在，再续期
                         lock.reExpire(lockKey, lockValue, lock.getExpireTime());
                         System.out.println("锁续期 下次过期时间为 " + currentTimeMillis + lock.getExpireTime());
 
